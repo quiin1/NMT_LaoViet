@@ -6,6 +6,9 @@ def extension_check(pth):
   return any( ext == valid_ext for valid_ext in [".json", ".yaml", ".yml"])
 
 def find_all_config(directory):
+  print("TEST")
+  # print("/".join(directory, os.listdir(directory)[0]))
+  # return ["/lo_vi.model/lo_vi.yml"]
   return [os.path.join(directory, f) for f in os.listdir(directory) if extension_check(f)]
 
 class Config(dict):
@@ -20,7 +23,7 @@ class Config(dict):
 
   def _load_yaml(self, yaml_path):
     with io.open(yaml_path, "r", encoding="utf-8") as yf:
-      return yaml.load(yf.read())
+      return yaml.full_load(yf.read())
 
   def _try_load_path(self, path):
     assert isinstance(path, str), "Basic Config class can only support a single file path (str), but instead is {}({})".format(path, type(path))
