@@ -3,3 +3,8 @@ layers/__pycache__
 models/__pycache__
 modules/__pycache__
 utils/__pycache__
+venv
+.vscode
+**/__pycache__
+*.model
+README2.md
