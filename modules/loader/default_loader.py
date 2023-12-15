@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 from torchtext.data import BucketIterator, Dataset, Example, Field
 from torchtext.datasets import TranslationDataset, Multi30k, IWSLT, WMT14
 from collections import Counter
+from laonlp import word_tokenize as lao_tokenizer
 
 import modules.constants as const
 from utils.save import load_vocab_from_path
@@ -24,6 +25,12 @@ class DefaultLoader:
 
   def tokenize(self, sentence):
     return sentence.strip().split()
+  
+  def loTokenize(self, sentence):
+    return [tok for tok in lao_tokenizer(sentence)]
+  
+  def viTokenize(self, sentence):
+    return [tok for tok in sentence.strip().split()]
 
   def detokenize(self, list_of_tokens):
     """Differentiate between [batch, len] and [len]; joining tokens back to strings"""

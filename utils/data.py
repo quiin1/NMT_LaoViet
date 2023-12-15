@@ -5,6 +5,9 @@ import dill as pickle
 import pandas as pd
 from torchtext import data
 
+from laonlp import word_tokenize as LoTokenizer
+from pyvi import ViTokenizer
+
 def multiple_replace(dict, text):
   # Create a regular expression  from the dictionary keys
   regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
@@ -31,8 +34,7 @@ class Tokenizer:
             self.tokenizer_fn = lambda l: l.strip().split()
             
     def tokenize(self, sentence):
-        sentence = re.sub(
-        r"[\*\"“”\n\\…\+\-\/\=\(\)‘•:\[\]\|’\!;]", " ", str(sentence))
+        sentence = re.sub(r"[\*\"“”\n\\…\+\-\/\=\(\)‘•:\[\]\|’\!;]", " ", str(sentence))
         sentence = re.sub(r"[ ]+", " ", sentence)
         sentence = re.sub(r"\!+", "!", sentence)
         sentence = re.sub(r"\,+", ",", sentence)
@@ -58,6 +60,13 @@ def write_file(file_dir, content):
     f = open(file_dir, "w")
     f.write(content)
     f.close()
+
+def t_src_tokenizer(sentence):
+    return lao_tokenize(sentence.strip())
+
+def t_trg_tokenizer(sentence):
+    # return ViTokenizer.tokenize(sentence.strip())
+    return nltk.tokenize.word_tokenize(sentence.strip())
 
 def create_fields(src_lang, trg_lang):
     
